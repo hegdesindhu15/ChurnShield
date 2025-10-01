@@ -1,1 +1,24 @@
-flask 
+
+---
+
+## 📦 requirements.txt (curated from your stack)
+
+```txt
+Flask
+Flask-Login
+Flask-Session
+pandas
+numpy
+scikit-learn
+xgboost
+shap
+matplotlib
+seaborn
+mysql-connector-python
+PyMySQL
+pdfkit
+Jinja2
+python-dotenv
+requests
+joblib
+
