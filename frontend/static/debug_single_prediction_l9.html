@@ -1,0 +1,48 @@
+
+        <html>
+        <head>
+            <title>ChurnShield Prediction Report</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                h1 { color: #2c3e50; }
+                h2 { color: #34495e; }
+                ul { list-style-type: disc; margin-left: 20px; }
+                .section { margin-bottom: 20px; }
+                img { display: block; margin: 10px 0; }
+            </style>
+        </head>
+        <body>
+            <h1>ChurnShield Prediction Report</h1>
+            <div class="section">
+                <h2>Customer Summary</h2>
+                <ul>
+                    <li><strong>Customer ID:</strong> l9</li>
+                    <li><strong>Analysis Date:</strong> June 24, 2025</li>
+                    <li><strong>Churn Prediction:</strong> Churn</li>
+                    <li><strong>Churn Probability:</strong> 65.13%</li>
+                    <li><strong>Customer Lifetime Value:</strong> &#8377;23110.44</li>
+                </ul>
+            </div>
+            <div class="section">
+                <h2>Customer Input Details</h2>
+                <ul>    <li>CustomerID: l9</li>    <li>Age: 22</li>    <li>Gender: Male</li>    <li>Marital_Status: Single</li>    <li>Region: Metro</li>    <li>Education_Level: Bachelor's</li>    <li>Employment_Status: Employed</li>    <li>Policy_Type: Third Party</li>    <li>Policy_Tenure: 1</li>    <li>Policy_Renewal_Count: 1</li>    <li>Policy_Cancellation_History: 1</li>    <li>Premium_Amount: 789</li>    <li>Total_Claims_Filed: 12</li>    <li>Claim_Amount_Total: 120000</li>    <li>Family_Members_Insured: 2</li>    <li>Missed_Payments: 7</li>    <li>Mode_of_Communication: Phone</li>    <li>Payment_Mode: Cheque</li>    <li>Customer_Complaints: 12</li>    <li>Complaint_Resolution_Time: 43</li>    <li>Customer_Support_Calls: 1</li>    <li>Policy_Start_Date: 2025-06-01</li>    <li>Policy_End_Date: 2025-06-04</li>    <li>Last_Claim_Date: 2025-06-07</li>    <li>Last_Payment_Date: 2025-06-18</li>    <li>Vehicle_Age: 7</li>    <li>Vehicle_Type: SUV</li></ul>
+            </div>
+            <div class="section">
+                <h2>Top Churn Drivers (SHAP)</h2>
+                <img src="http://localhost:5000/static/plots/l9_shap.png" alt="SHAP Plot" style="max-width: 100%; height: auto;">
+            </div>
+            <div class="section">
+                <h2>Churn Explanation</h2>
+                <ul>
+                        Why this customer might churn:<br>     Analysis indicates: Their complaint resolution time of 43.0 suggests a higher chance of leaving.<br>     Analysis indicates: Being 3 increases their likelihood of churning.<br>     Analysis indicates: Their missed payments of 7.0 suggests a higher chance of leaving.<br>     Analysis indicates: Their customer complaints of 12.0 suggests a higher chance of leaving.<br>
+                </ul>
+            </div>
+            <div class="section">
+                <h2>AI-Suggested Retention Strategies</h2>
+                <ul>
+                         Address the 7 missed payments immediately to avoid policy cancellation.<br>      Proactively contact the customer to understand and resolve their 12 complaints, focusing on improving the 43day complaint resolution time.<br>     Offer a tailored insurance plan considering their vehicle type (information not provided, but crucial for retention).<br>      Provide a discount or incentive to encourage continued loyalty and offset the negative experience.<br>
+                </ul>
+            </div>
+        </body>
+        </html>
+        

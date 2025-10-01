@@ -1,0 +1,11 @@
+Customer_ID,Age,Gender,Marital_Status,Region,Education_Level,Employment_Status,Policy_Type,Policy_Tenure,Policy_Renewal_Count,Total_Claims_Filed,Claim_Amount_Total,Missed_Payments,Family_Members_Insured,Policy_Cancellation_History,Mode_of_Communication,Payment_Mode,Customer_Complaints,Complaint_Resolution_Time,Customer_Support_Calls,Policy_Start_Date,Policy_End_Date,Last_Claim_Date,Last_Payment_Date,Vehicle_Age,Vehicle_Type,Premium_Amount,Churn
+C1,56,Male,Married,Urban,Master’s,Employed,Comprehensive,1,4,2,10000,1,2,0,Email,Monthly,3,14,5,2021-12-02,2022-12-02,2022-08-09,2022-07-31,2,Hatchback,5230,0
+C2,34,Female,Single,Rural,Bachelor’s,Unemployed,Third Party,2,1,0,0,0,1,0,Phone,Annual,0,0,2,2020-01-15,2022-01-15,,2021-12-01,5,Sedan,4500,1
+C3,45,Male,Married,Urban,High School,Employed,Comprehensive,3,2,1,5000,0,3,0,Email,Quarterly,1,5,3,2019-06-01,2022-06-01,2021-12-01,2022-05-15,3,SUV,6000,0
+C4,28,Female,Single,Suburban,Bachelor’s,Employed,Third Party,1,0,0,0,2,1,1,Phone,Monthly,2,10,4,2022-01-01,2023-01-01,,2022-12-01,1,Hatchback,4000,1
+C5,60,Male,Married,Rural,Master’s,Retired,Comprehensive,5,5,3,15000,0,2,0,Email,Annual,0,0,1,2018-03-01,2023-03-01,2022-06-01,2022-12-31,10,Sedan,7000,0
+C6,39,Female,Divorced,Urban,PhD,Employed,Comprehensive,2,1,1,3000,1,1,0,Email,Monthly,1,7,2,2020-09-01,2022-09-01,2022-03-01,2022-08-01,4,SUV,5500,0
+C7,50,Male,Married,Suburban,High School,Employed,Third Party,4,3,2,8000,0,4,0,Phone,Quarterly,0,0,0,2019-01-01,2023-01-01,2021-11-01,2022-12-01,6,Hatchback,4800,0
+C8,33,Female,Single,Urban,Bachelor’s,Employed,Comprehensive,1,0,0,0,1,1,0,Email,Monthly,3,12,5,2022-02-01,2023-02-01,,2022-12-15,2,Sedan,4200,1
+C9,47,Male,Married,Rural,Master’s,Employed,Comprehensive,3,2,1,6000,0,2,0,Email,Annual,0,0,1,2019-07-01,2022-07-01,2022-01-01,2022-06-01,5,SUV,6500,0
+C10,29,Female,Single,Suburban,Bachelor’s,Unemployed,Third Party,2,1,0,0,1,1,0,Phone,Monthly,2,8,3,2021-01-01,2023-01-01,,2022-11-01,3,Hatchback,4100,1

@@ -1,0 +1,170 @@
+
+\documentclass[a4paper,12pt]{article}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{parskip}
+\usepackage{noto}
+\geometry{margin=1in}
+
+\begin{document}
+
+\title{ChurnShield Analysis Report: m12}
+\author{ChurnShield Analytics}
+\date{ June 05, 2025 }
+\maketitle
+
+\section{Introduction}
+This report presents the churn analysis results for the dataset associated with the project \textbf{m12}. The analysis includes churn statistics, dataset characteristics, and visual representations of key patterns.
+
+\section{Churn Statistics}
+\begin{table}[h]
+\centering
+\begin{tabular}{lr}
+\toprule
+Metric & Value \\
+\midrule
+Total Customers & 14563 \\
+Churned & 2537 \\
+Not Churned & 12026 \\
+Churn Rate (%) & 17.4 \\
+\bottomrule
+\end{tabular}
+\caption{Churn Statistics}
+\label{tab:churn_stats}
+\end{table}
+
+\section{Dataset Summary}
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\toprule
+Attribute & Details \\
+\midrule
+Row Count & 14563 \\
+Column Count & 29 \\
+Columns & Customer_ID, Age, Gender, Marital_Status, Region, Education_Level, Employment_Status, Policy_Type, Policy_Tenure, Policy_Renewal_Count, Total_Claims_Filed, Claim_Amount_Total, Missed_Payments, Family_Members_Insured, Policy_Cancellation_History, Mode_of_Communication, Payment_Mode, Customer_Complaints, Complaint_Resolution_Time, Customer_Support_Calls, Policy_Start_Date, Policy_End_Date, Last_Claim_Date, Last_Payment_Date, Vehicle_Age, Vehicle_Type, Premium_Amount, Churn, Age_Group \\
+Missing Values & 265 \\
+\bottomrule
+\end{tabular}
+\caption{Dataset Summary}
+\label{tab:dataset_summary}
+\end{table}
+
+\section{Numerical Columns Summary}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lrrrr}
+\toprule
+Column & Mean & Std & Min & Max \\
+\midrule
+Age & 43.45 & 14.9 & 18.0 & 69.0 \\
+Policy_Tenure & 4.98 & 2.59 & 1.0 & 9.0 \\
+Policy_Renewal_Count & 2.49 & 1.71 & 0.0 & 5.0 \\
+Total_Claims_Filed & 2.01 & 1.41 & 0.0 & 4.0 \\
+Claim_Amount_Total & 250848.2 & 143192.5 & 5077.0 & 499957.0 \\
+Missed_Payments & 1.5 & 1.12 & 0.0 & 3.0 \\
+Family_Members_Insured & 2.49 & 1.12 & 1.0 & 4.0 \\
+Policy_Cancellation_History & 1.0 & 0.81 & 0.0 & 2.0 \\
+Customer_Complaints & 4.5 & 2.86 & 0.0 & 9.0 \\
+Complaint_Resolution_Time & 14.91 & 8.33 & 1.0 & 29.0 \\
+Customer_Support_Calls & 4.52 & 2.88 & 0.0 & 9.0 \\
+Vehicle_Age & 6.98 & 4.31 & 0.0 & 14.0 \\
+Premium_Amount & 15884.23 & 8232.45 & 5001.0 & 49991.0 \\
+Churn & 0.17 & 0.38 & 0.0 & 1.0 \\
+\bottomrule
+\end{tabular}
+\caption{Numerical Columns Summary}
+\label{tab:numerical_summary}
+\end{table}
+
+
+\section{Visual Analysis}
+The following figures illustrate key patterns in the dataset:
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{frontend/static/plots/m12_churn_pie.png}
+\caption{ Churn Rate Overview }
+\label{fig:churnrateoverview}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{frontend/static/plots/m12_churn_age_group.png}
+\caption{ Churn Rate By Age Group }
+\label{fig:churnratebyagegroup}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{frontend/static/plots/m12_policy_tenure_distribution.png}
+\caption{ Policy Tenure Distribution }
+\label{fig:policytenuredistribution}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{frontend/static/plots/m12_missed_payments_vs_churn.png}
+\caption{ Missed Payments Vs Churn }
+\label{fig:missedpaymentsvschurn}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{frontend/static/plots/m12_churn_by_policy_type.png}
+\caption{ Churn Rate By Policy Type }
+\label{fig:churnratebypolicytype}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{frontend/static/plots/m12_plot_data.json}
+\caption{ Plot Data }
+\label{fig:plotdata}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{frontend/static/plots/m12_churn_over_time.png}
+\caption{ Monthly Churn Rate Over Time }
+\label{fig:monthlychurnrateovertime}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{frontend/static/plots/m12_time_plot_data.json}
+\caption{ Time Plot Data }
+\label{fig:timeplotdata}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{frontend/static/plots/m12_support_calls_vs_churn.png}
+\caption{ Customer Support Calls Vs Churn }
+\label{fig:customersupportcallsvschurn}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{frontend/static/plots/m12_risk_plot_data.json}
+\caption{ Risk Plot Data }
+\label{fig:riskplotdata}
+\end{figure}
+
+
+\section{Conclusion}
+The analysis reveals key insights into customer churn behavior, as depicted in the visualizations and summarized in the statistics. Further investigation into high-churn segments may inform targeted retention strategies.
+
+\end{document}

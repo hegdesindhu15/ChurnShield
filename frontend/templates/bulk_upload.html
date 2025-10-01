@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bulk Upload - ChurnShield</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex min-h-screen">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-blue-800 text-white p-6 flex flex-col">
+    <h1 class="text-2xl font-bold mb-8">ChurnShield</h1>
+    <nav class="flex flex-col gap-3">
+      <a href="{{ url_for('home') }}" class="hover:bg-blue-700 px-3 py-2 rounded">Home</a>
+            <a href="{{ url_for('bulk_history') }}" class="hover:bg-blue-700 px-3 py-2 rounded">History</a>
+
+      <a href="{{ url_for('bulk_upload') }}" class="bg-blue-700 px-3 py-2 rounded">Bulk Upload</a>
+      <a href="{{ url_for('logout') }}" class="hover:bg-blue-700 px-3 py-2 rounded">Logout</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8 overflow-auto">
+
+    <h2 class="text-3xl font-bold mb-6">📊 Bulk Upload Dashboard</h2>
+
+    <!-- Upload Form -->
+    <form method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded shadow mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label>Project Name</label>
+          <input type="text" name="project_name" class="w-full border p-2 rounded" required />
+        </div>
+        <div>
+          <label>Upload CSV File</label>
+          <input type="file" name="file" accept=".csv" class="w-full border p-2 rounded" required />
+        </div>
+        <div>
+          <label>Group Feature (Optional)</label>
+          <select name="group_feature" id="group_feature" class="w-full border p-2 rounded">
+            <option value="">-- Select --</option>
+            {% for col in grouping_columns %}
+              <option value="{{ col }}">{{ col }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="mt-4 flex gap-4">
+        <button type="submit" name="analysis_type" value="pattern" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          Upload and Analyse Patterns
+        </button>
+        <button type="submit" name="analysis_type" value="grouping" id="group-btn" class="bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed" disabled>
+          Analyze by Group
+        </button>
+      </div>
+    </form>
+
+    {% if plot_paths %}
+    <!-- KPI Summary -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div class="bg-white p-4 rounded shadow text-center">
+        <h3 class="text-lg font-semibold">Total Customers</h3>
+        <p class="text-xl">{{ summary_kpis.total_customers }}</p>
+      </div>
+      <div class="bg-white p-4 rounded shadow text-center">
+        <h3 class="text-lg font-semibold">Churned Customers</h3>
+        <p class="text-xl">{{ summary_kpis.total_churned }}</p>
+      </div>
+      <div class="bg-white p-4 rounded shadow text-center">
+        <h3 class="text-lg font-semibold">Churn Rate</h3>
+        <p class="text-xl">{{ summary_kpis.churn_rate }}%</p>
+      </div>
+    </div>
+
+    <!-- Sectioned Plot Rendering -->
+ {% set sections_patterns = {
+  'Churn vs No-Churn': ['Churn Rate Distribution'],
+  'Time-based Churn Trends': ['Monthly Churn Rate Over Time', 'Yearly Churn Rate Over Time'],
+  'Top Churn Drivers': ['Top Churn Drivers']
+} %}
+
+{% set sections_groups = {
+  'Churn rate by selected option': ['Churn Rate by ']
+} %}
+
+{% if analysis_type == 'pattern' %}
+  {% for section, keywords in sections_patterns.items() %}
+    <details class="mb-6 bg-white p-4 rounded shadow" open>
+      <summary class="text-xl font-semibold mb-2">{{ section }}</summary>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        {% for title, path in plot_paths.items() %}
+          {% for keyword in keywords %}
+            {% if title == keyword or title.startswith(keyword) %}
+              <div>
+                <h4 class="text-md font-semibold mb-1">{{ title }}</h4>
+                <img src="{{ url_for('static', filename=path) }}" alt="{{ title }}" class="max-w-lg w-full h-auto rounded border" />
+                
+                {% if plot_explanations and title in plot_explanations %}
+                  <p class="text-sm italic text-gray-600 mt-2">{{ plot_explanations[title] }}</p>
+                {% endif %}
+
+                <button class="text-sm mt-2 text-blue-600 underline" onclick="explainChart('{{ title }}')">
+   Explain This Chart
+</button>
+<p id="explanation-{{ title | replace(' ', '_') | replace('(', '') | replace(')', '') }}" class="text-gray-700 mt-2 text-sm italic"></p>
+
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </details>
+  {% endfor %}
+{% endif %}
+
+{% if analysis_type == 'grouping' %}
+  {% for section, keywords in sections_groups.items() %}
+    <details class="mb-6 bg-white p-4 rounded shadow" open>
+      <summary class="text-xl font-semibold mb-2">{{ section }}</summary>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        {% for title, path in plot_paths.items() %}
+          {% for keyword in keywords %}
+            {% if title == keyword or title.startswith(keyword) %}
+              <div>
+                <h4 class="text-md font-semibold mb-1">{{ title }}</h4>
+                <img src="{{ url_for('static', filename=path) }}" alt="{{ title }}" class="max-w-md w-full h-auto rounded border" />
+
+                {% if plot_explanations and title in plot_explanations %}
+                  <p class="text-sm italic text-gray-600 mt-2">{{ plot_explanations[title] }}</p>
+                {% endif %}
+
+                <!-- ✅ Add Explain Button + Safe ID -->
+                <button class="text-sm mt-2 text-blue-600 underline" onclick="explainChart('{{ title }}')">
+                   Explain This Chart
+                </button>
+                <p id="explanation-{{ title | replace(' ', '_') }}" class="text-gray-700 mt-2 text-sm italic"></p>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </details>
+  {% endfor %}
+{% endif %}
+
+
+
+    <!-- Report Button -->
+    <div class="mt-6 text-center">
+      <a href="{{ url_for('generate_report') }}" class="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700">📄 Generate Report</a>
+    </div>
+
+    {% else %}
+      <p class="mt-4 text-gray-600">No analysis results yet. Upload a file to begin.</p>
+    {% endif %}
+
+    <!-- flash -->
+    <!-- flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+   {% if messages %}
+      <div id="flash-messages" class="space-y-3 mb-4">
+         {% for category, message in messages %}
+            {% if "Please log in" not in message %}  {# Optional: filter login flash #}
+            <div class="flash-msg rounded-lg px-4 py-3 text-sm font-medium flex items-center justify-between
+               {{ 'bg-red-100 text-red-800 border border-red-300' if category == 'error' else 'bg-green-100 text-green-800 border border-green-300' }}">
+               {{ message }}
+               <button onclick="this.parentElement.remove()" class="ml-4 text-lg font-bold">&times;</button>
+            </div>
+            {% endif %}
+         {% endfor %}
+      </div>
+      
+      <script>
+         // Auto-hide flash messages after 4 seconds
+         setTimeout(() => {
+            document.querySelectorAll('.flash-msg').forEach(el => {
+               el.style.transition = 'opacity 0.5s ease';
+               el.style.opacity = '0';
+               setTimeout(() => el.remove(), 500); // remove from DOM after fade
+            });
+         }, 4000);
+      </script>
+   {% endif %}
+{% endwith %}
+
+<!--  -->
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const groupSelect = document.getElementById('group_feature');
+      const groupBtn = document.getElementById('group-btn');
+
+      function toggleGroupButton() {
+        if (groupSelect.value && groupSelect.value.trim() !== '') {
+          groupBtn.disabled = false;
+          groupBtn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+          groupBtn.classList.add('bg-blue-600', 'hover:bg-blue-700', 'cursor-pointer');
+        } else {
+          groupBtn.disabled = true;
+          groupBtn.classList.add('bg-gray-400', 'cursor-not-allowed');
+          groupBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700', 'cursor-pointer');
+        }
+      }
+
+      // Run on load
+      toggleGroupButton();
+
+      // Update on dropdown change
+      groupSelect.addEventListener('change', toggleGroupButton);
+    });
+    </script>
+  </main>
+
+<script>
+document.querySelectorAll('.explain-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const title = btn.dataset.title;
+    const explanationEl = btn.nextElementSibling;
+    explanationEl.textContent = "Loading...";
+    explanationEl.classList.remove('hidden');
+
+    try {
+      const response = await fetch('/explain_plot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plot_title: title })
+      });
+
+      const data = await response.json();
+      explanationEl.textContent = data.explanation || data.error || "No response";
+    } catch (err) {
+      explanationEl.textContent = "Failed to get explanation.";
+    }
+  });
+});
+</script>
+<script>
+  function explainChart(title) {
+  const summary = `This chart titled '${title}' shows churn-related patterns.`;
+  const safeId = "explanation-" + title.replace(/\s+/g, "_");  // matches Jinja
+
+  const explanationEl = document.getElementById(safeId);
+  if (!explanationEl) return;
+
+  explanationEl.innerText = "Generating explanation...";
+
+  fetch("/explain_plot", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title, summary })
+  })
+  .then(res => res.json())
+  .then(data => {
+    explanationEl.innerText = data.explanation || data.error || "No explanation returned.";
+  })
+  .catch(err => {
+    explanationEl.innerText = "Failed to get explanation.";
+    console.error(err);
+  });
+}
+
+</script>
+
+<!--  -->
+<script>
+  setTimeout(() => {
+    const flash = document.getElementById('flash-messages');
+    if (flash) flash.remove();
+  }, 500);
+</script>
+<!--  -->
+
+</body>
+</html>

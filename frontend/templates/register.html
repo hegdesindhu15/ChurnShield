@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - ChurnShield</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+</head>
+<body>
+  <div class="card">
+    <h1>Register to ChurnShield</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <form method="POST" action="{{ url_for('register') }}">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+      
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      
+      <button type="submit" class="button">Register</button>
+    </form>
+    <p>Already have an account? <a href="{{ url_for('login') }}">Login Here</a></p>
+  </div>
+
+  <script>
+   // Auto-hide flash messages after 4 seconds
+   setTimeout(() => {
+      document.querySelectorAll('.flashes li').forEach(el => {
+         el.style.transition = 'opacity 0.5s ease';
+         el.style.opacity = '0';
+         setTimeout(() => el.remove(), 500); // Remove from DOM
+      });
+   }, 4000);
+</script>
+
+</body>
+</html>

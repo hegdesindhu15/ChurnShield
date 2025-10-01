@@ -1,0 +1,11 @@
+Customer_ID,Age,Gender,Marital_Status,Region,Education_Level,Employment_Status,Policy_Type,Policy_Tenure,Policy_Renewal_Count,Total_Claims_Filed,Claim_Amount_Total,Missed_Payments,Family_Members_Insured,Policy_Cancellation_History,Mode_of_Communication,Payment_Mode,Customer_Complaints,Complaint_Resolution_Time,Customer_Support_Calls,Policy_Start_Date,Policy_End_Date,Last_Claim_Date,Last_Payment_Date,Vehicle_Age,Vehicle_Type,Premium_Amount,Churn,Churn_Numeric
+C1,56,Male,Married,Urban,Master's,Employed,Comprehensive,1,4,2,261475,0,4,1,Email,Credit Card,2,14,5,2000-01-01,2000-01-01,2000-01-01,2000-01-01,2,Hatchback,5230,0,0
+C2,69,Male,Married,Metro,Master's,Employed,Comprehensive,6,4,2,421019,3,4,2,Email,Cash,8,12,8,2000-01-01,2000-01-01,2000-01-01,2000-01-01,4,SUV,29617,0,0
+C3,46,Male,Married,Urban,Master's,Self-Employed,Comprehensive,1,0,4,19426,0,2,1,In-Person,Credit Card,2,9,3,2000-01-01,2000-01-01,2000-01-01,2000-01-01,6,Hatchback,12751,0,0
+C4,32,Female,Single,Metro,Master's,Unemployed,Third Party,7,2,3,465559,3,2,0,Email,Cash,0,20,7,2000-01-01,2000-01-01,2000-01-01,2000-01-01,12,Hatchback,10390,0,0
+C5,60,Male,Married,Urban,Master's,Self-Employed,Comprehensive,4,1,3,89838,0,1,0,In-Person,Online,6,17,7,2000-01-01,2000-01-01,2000-01-01,2000-01-01,6,Hatchback,7617,0,0
+C6,25,Female,Married,Rural,Bachelor's,Employed,Comprehensive,7,3,0,418477,1,2,1,In-Person,Cash,9,4,4,2000-01-01,2000-01-01,2000-01-01,2000-01-01,12,Sedan,7642,0,0
+C7,38,Male,Married,Rural,Master's,Employed,Comprehensive,1,2,3,442972,0,1,0,Phone,Online,2,12,8,2000-01-01,2000-01-01,2000-01-01,2000-01-01,1,SUV,17087,0,0
+C8,56,Female,Married,Rural,Bachelor's,Employed,Third Party,3,4,2,294443,1,3,1,Phone,Cheque,2,28,2,2000-01-01,2000-01-01,2000-01-01,2000-01-01,13,Hatchback,18353,0,0
+C9,36,Male,Single,Urban,Bachelor's,Employed,Third Party,3,5,2,251366,1,1,2,In-Person,Credit Card,7,11,8,2000-01-01,2000-01-01,2000-01-01,2000-01-01,13,Luxury,18686,0,0
+C10,40,Male,Married,Urban,Master's,Employed,Comprehensive,9,0,3,364906,1,1,2,Email,Online,3,21,7,2000-01-01,2000-01-01,2000-01-01,2000-01-01,13,SUV,16296,0,0

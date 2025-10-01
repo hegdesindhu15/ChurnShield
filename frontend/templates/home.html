@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - ChurnShield</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+
+</head>
+<body>
+    <header class="home-header">
+        <nav class="navbar">
+            <div class="logo">ChurnShield</div>
+            <ul class="nav-links">
+                <!-- <li><a href="{{ url_for('home') }}">Home</a></li> -->
+                <!-- <li><a href="{{ url_for('single_prediction') }}">Single User Prediction</a></li> -->
+                <!-- <li><a href="{{ url_for('bulk_upload') }}">Bulk Upload</a></li> -->
+                <!-- <li><a href="#">Analytics</a></li>
+                <li><a href="#">Contact</a></li> -->
+                {% if session.get('user') %}
+                <li><a href="{{ url_for('logout') }}" class="btn-primary">Logout</a></li>
+              {% else %}
+                <li><a href="{{ url_for('login') }}" class="btn-primary">Login</a></li>
+              {% endif %}
+          
+            </ul>
+        </nav>
+        <div class="hero">
+            <h1>Welcome to ChurnShield</h1>
+            <p>Predict customer churn effortlessly for individuals or bulk data, and gain actionable insights.</p>
+            <!-- <a href="#" class="btn-cta">Start Prediction</a> -->
+        </div>
+    </header>
+
+    <main>
+        <!-- Features Section -->
+        <section class="features">
+            <h2>Features at a Glance</h2>
+            <div class="feature-cards">
+                <div class="card">
+                    <!-- <img src="images/single-prediction.png" alt="Single Prediction"> -->
+                    <h3>Single Prediction</h3>
+                    <p>Predict churn risk for an individual customer and view detailed analytics.</p>
+                    <a href="{{ url_for('single_prediction') }}" class="btn-secondary">Try Now</a>
+                </div>
+                <div class="card">
+                    <!-- <img src="images/bulk-upload.png" alt="Bulk Upload"> -->
+                    <h3>Bulk Data Upload</h3>
+                    <p>Upload large datasets, predict churn for all customers, and analyze trends.</p>
+                    <a href="{{ url_for('bulk_upload') }}" class="btn-secondary">Upload Data</a>
+                </div>
+                <!-- <div class="card"> -->
+                    <!-- <img src="images/analytics.png" alt="Analytics"> -->
+                    <!-- <h3>Grouping</h3> -->
+                    <!-- <p>Gain insights into customer behavior, retention strategies, and risk factors.</p> -->
+                    <!-- <a href="#" class="btn-secondary">View Insights</a> -->
+                <!-- </div> -->
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <!-- <img src="images/upload.png" alt="Upload Data"> -->
+                    <h3>1. Upload Data</h3>
+                    <p>Upload a single customer’s details or bulk customer data.</p>
+                </div>
+                <div class="step">
+                    <!-- <img src="images/predict.png" alt="Predict"> -->
+                    <h3>2. Predict Churn</h3>
+                    <p>Use our AI-driven model to predict churn probabilities.</p>
+                </div>
+                <div class="step">
+                    <!-- <img src="images/insights.png" alt="Insights"> -->
+                    <h3>3. View Insights</h3>
+                    <p>Analyze churn trends and develop data-driven retention strategies.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <!-- <section class="testimonial">
+            <h2>What Our Users Say</h2>
+            <div class="testimonial-card">
+                <p>"Using Churn Predictor, we’ve made smarter decisions and improved our retention by 30%!"</p>
+                <h4>- Sarah Lee, Marketing Head</h4>
+            </div>
+        </section> -->
+    </main>
+
+    <footer>
+        <p>&copy; 2025 ChurnShield. All rights reserved.</p>
+    </footer>
+</body>
+</html>

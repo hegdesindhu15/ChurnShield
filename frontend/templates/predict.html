@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Predict Churn</title>
+  <link rel="stylesheet" href="../static/css/index2.css">
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script></head>
+<body>
+  <header>
+    <h1>Predict Churn</h1>
+    <a href="{{ url_for('home') }}" style="text-decoration: none;">
+      <button type="button" id="home-btn" style="padding: 5px 10px; font-size: 16px; cursor: pointer;">Home</button>
+    </a>
+  </header>
+  <main>
+    <form id="churn-form">
+      <!-- SECTION 1: Customer Demographics -->
+      <section class="form-section" id="section-1">
+        <h2>Customer Demographics</h2>
+        <label for="customer-id">Customer ID</label>
+        <input type="text" id="customer-id" name="CustomerID" required>
+    
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="Age" min="0" required>
+    
+        <label for="gender">Gender:</label>
+        <select id="gender" name="Gender" required>
+          <option value="">Select</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+    
+        <label for="marital-status">Marital Status:</label>
+        <select id="marital-status" name="Marital_Status" required>
+          <option value="">Select</option>
+          <option value="Single">Single</option>
+          <option value="Married">Married</option>
+          <option value="Divorced">Divorced</option>
+        </select>
+    
+        <label for="region">Region:</label>
+        <select id="region" name="Region" required>
+          <option value="">Select</option>
+          <option value="Metro">Metro</option>
+          <option value="Urban">Urban</option>
+          <option value="Rural">Rural</option>
+        </select>
+    
+        <label for="education_level">Education Level:</label>
+        <select id="education_level" name="Education_Level" required>
+          <option value="">Select</option>
+          <option value="Master’s">Master’s</option>
+          <option value="Bachelor’s">Bachelor’s</option>
+          <option value="Diploma">Diploma</option>
+          <option value="High School">High School</option>
+        </select>
+    
+        <label for="employment_status">Employment Status:</label>
+        <select id="employment_status" name="Employment_Status" required>
+          <option value="">Select</option>
+          <option value="Employed">Employed</option>
+          <option value="Self-Employed">Self-Employed</option>
+          <option value="Unemployed">Unemployed</option>
+        </select>
+      </section>
+    
+      <!-- SECTION 2: Policy Information -->
+      <section class="form-section" id="section-2" style="display:none;">
+        <h2>Policy Information</h2>
+        <label for="policy-type">Policy Type:</label>
+        <select id="policy-type" name="Policy_Type" required>
+          <option value="">Select</option>
+          <option value="Comprehensive">Comprehensive</option>
+          <option value="Third Party">Third Party</option>
+          <option value="Own Damage">Own Damage</option>
+        </select>
+    
+        <label for="policy-tenure">Policy Tenure (years):</label>
+        <input type="number" id="policy-tenure" name="Policy_Tenure" min="0" required>
+    
+        <label for="policy-renewal-count">Policy Renewal Count:</label>
+        <input type="number" id="policy-renewal-count" name="Policy_Renewal_Count" min="0" required>
+    
+        <label for="policy-cancellation-history">Policy Cancellation History:</label>
+        <input type="number" id="policy-cancellation-history" name="Policy_Cancellation_History" min="0" max="2" required>
+      </section>
+    
+      <!-- SECTION 3: Financial & Claim Details -->
+      <section class="form-section" id="section-3" style="display:none;">
+        <h2>Financial & Claim Details</h2>
+        <label for="premium-amount">Premium Amount:</label>
+        <input type="number" id="premium-amount" name="Premium_Amount" min="0" required>
+    
+        <label for="total-claims-filed">Total Claims Filed:</label>
+        <input type="number" id="total-claims-filed" name="Total_Claims_Filed" min="0" required>
+    
+        <label for="claim-amount-total">Claim Amount Total:</label>
+        <input type="number" id="claim-amount-total" name="Claim_Amount_Total" min="0" required>
+      </section>
+    
+      <!-- SECTION 4: Customer Behavior -->
+      <section class="form-section" id="section-4" style="display:none;">
+        <h2>Customer Behavior</h2>
+        <label for="family-members-insured">Family Members Insured:</label>
+        <input type="number" id="family-members-insured" name="Family_Members_Insured" min="0" required>
+    
+        <label for="missed-payments">Missed Payments:</label>
+        <input type="number" id="missed-payments" name="Missed_Payments" min="0" required>
+    
+        <label for="mode-of-communication">Mode of Communication:</label>
+        <select id="mode-of-communication" name="Mode_of_Communication" required>
+          <option value="">Select</option>
+          <option value="Phone">Phone</option>
+          <option value="Email">Email</option>
+          <option value="In-Person">In-Person</option>
+        </select>
+    
+        <label for="payment-mode">Payment Mode:</label>
+        <select id="payment-mode" name="Payment_Mode" required>
+          <option value="">Select</option>
+          <option value="Online">Online</option>
+          <option value="Cheque">Cheque</option>
+          <option value="Credit Card">Credit Card</option>
+          <option value="Cash">Cash</option>
+        </select>
+      </section>
+    
+      <!-- SECTION 5: Customer Engagement -->
+      <section class="form-section" id="section-5" style="display:none;">
+        <h2>Customer Engagement</h2>
+        <label for="customer-complaints">Customer Complaints:</label>
+        <input type="number" id="customer-complaints" name="Customer_Complaints" min="0" required>
+    
+        <label for="complaint-resolution-time">Complaint Resolution Time (days):</label>
+        <input type="number" id="complaint-resolution-time" name="Complaint_Resolution_Time" min="0" required>
+    
+        <label for="customer-support-calls">Customer Support Calls:</label>
+        <input type="number" id="customer-support-calls" name="Customer_Support_Calls" min="0" required>
+      </section>
+    
+      <!-- SECTION 6: Time-Based Fields -->
+      <section class="form-section" id="section-6" style="display:none;">
+        <h2>Time-Based Fields</h2>
+        <label for="policy-start-date">Policy Start Date:</label>
+        <input type="date" id="policy-start-date" name="Policy_Start_Date" required>
+        <label for="policy-end-date">Policy End Date:</label>
+        <input type="date" id="policy-end-date" name="Policy_End_Date" required>
+    
+        <label for="last-claim-date">Last Claim Date:</label>
+        <input type="date" id="last-claim-date" name="Last_Claim_Date" required>
+    
+        <label for="last-payment-date">Last Payment Date:</label>
+        <input type="date" id="last-payment-date" name="Last_Payment_Date" required>
+    
+        <label for="vehicle-age">Vehicle Age (years):</label>
+        <input type="number" id="vehicle-age" name="Vehicle_Age" min="0" required>
+    
+        <label for="vehicle-type">Vehicle Type:</label>
+        <select id="vehicle-type" name="Vehicle_Type" required>
+          <option value="">Select</option>
+          <option value="Hatchback">Hatchback</option>
+          <option value="Sedan">Sedan</option>
+          <option value="SUV">SUV</option>
+          <option value="Luxury">Luxury</option>
+        </select>
+      </section>
+    
+      <!-- SECTION 7: Output Fields -->
+      <section class="form-section" id="section-7" style="display:none;">
+        <h2>Output Fields</h2>
+        <label for="predicted-churn-probability">Churn Probability:</label>
+        <output id="predicted-churn-probability">-</output>
+    
+        <label for="churn-group">Churn Group:</label>
+        <output id="churn-group">-</output>
+      </section>
+    
+      <!-- Navigation Buttons -->
+      <div style="text-align: center; margin-top: 20px;">
+        <button type="button" id="prev">Previous</button>
+        <button type="button" id="next">Next</button>
+        <div style="text-align: center;">
+          <button type="button" id="predict-btn">Predict</button>
+        </div>
+      </div>
+    </form>
+    
+    <!-- Section for CLV and Churn Reasons -->
+    <section id="clv-section" style="margin: 20px auto; width: 80%; text-align: center; border: 1px solid #ccc; padding: 10px;">
+      <h2>Customer Lifetime Value (CLV)</h2>
+      <button type="button" id="clv-btn">Calculate CLV</button>
+      <div id="clv-output" style="margin-top: 10px; font-size: 18px;">
+        CLV: <span id="clv-result">-</span>
+      </div>
+
+      <h2>Churn Reasons</h2>
+      <button type="button" id="churn-reasons-btn">Get Churn Reasons</button>
+      <div id="churn-reasons-output" style="margin-top: 10px; font-size: 18px;">
+        <pre id="churn-reasons-text">-</pre>
+      </div>
+    </section>
+    
+    <!-- Navigation & Predict Scripts -->
+    <script>
+      let currentPage = 0;
+      const sectionsPerPage = 2;
+      const sections = document.querySelectorAll(".form-section");
+      const totalPages = Math.ceil(sections.length / sectionsPerPage);
+      const outputPageIndex = totalPages - 1;
+
+      function showPage(page) {
+        sections.forEach((section) => (section.style.display = "none"));
+        const startIndex = page * sectionsPerPage;
+        const endIndex = Math.min(startIndex + sectionsPerPage, sections.length);
+        for (let i = startIndex; i < endIndex; i++) {
+          sections[i].style.display = "block";
+        }
+        if (page === outputPageIndex) {
+          document.getElementById("section-7").style.display = "block";
+        }
+
+        const predictButton = document.getElementById("predict-btn");
+        const prevButton = document.getElementById("prev");
+        const nextButton = document.getElementById("next");
+
+        if (page === totalPages - 2) {
+          predictButton.style.display = "inline-block";
+          prevButton.style.display = "none";
+          nextButton.style.display = "none";
+        } else if (page === totalPages - 1) {
+          predictButton.style.display = "none";
+          prevButton.style.display = "none";
+          nextButton.style.display = "none";
+        } else {
+          predictButton.style.display = "none";
+          prevButton.style.display = "inline-block";
+          nextButton.style.display = "inline-block";
+          prevButton.disabled = page === 0;
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        showPage(currentPage);
+
+        document.getElementById("next").addEventListener("click", () => {
+          if (currentPage < totalPages - 1) {
+            currentPage++;
+            showPage(currentPage);
+          }
+        });
+
+        document.getElementById("prev").addEventListener("click", () => {
+          if (currentPage > 0) {
+            currentPage--;
+            showPage(currentPage);
+          }
+        });
+
+        document.getElementById("predict-btn").addEventListener("click", async (event) => {
+          event.preventDefault();
+
+          // Collect form data without defaults
+          const formData = {
+            "CustomerID": document.getElementById("customer-id").value,
+            "Age": document.getElementById("age").value,
+            "Gender": document.getElementById("gender").value,
+            "Marital_Status": document.getElementById("marital-status").value,
+            "Region": document.getElementById("region").value,
+            "Education_Level": document.getElementById("education_level").value,
+            "Employment_Status": document.getElementById("employment_status").value,
+            "Policy_Type": document.getElementById("policy-type").value,
+            "Policy_Tenure": document.getElementById("policy-tenure").value,
+            "Policy_Renewal_Count": document.getElementById("policy-renewal-count").value,
+            "Policy_Cancellation_History": document.getElementById("policy-cancellation-history").value,
+            "Premium_Amount": document.getElementById("premium-amount").value,
+            "Total_Claims_Filed": document.getElementById("total-claims-filed").value,
+            "Claim_Amount_Total": document.getElementById("claim-amount-total").value,
+            "Family_Members_Insured": document.getElementById("family-members-insured").value,
+            "Missed_Payments": document.getElementById("missed-payments").value,
+            "Mode_of_Communication": document.getElementById("mode-of-communication").value,
+            "Payment_Mode": document.getElementById("payment-mode").value,
+            "Customer_Complaints": document.getElementById("customer-complaints").value,
+            "Complaint_Resolution_Time": document.getElementById("complaint-resolution-time").value,
+            "Customer_Support_Calls": document.getElementById("customer-support-calls").value,
+            "Policy_Start_Date": document.getElementById("policy-start-date").value,
+            "Policy_End_Date": document.getElementById("policy-end-date").value,
+            "Last_Claim_Date": document.getElementById("last-claim-date").value,
+            "Last_Payment_Date": document.getElementById("last-payment-date").value,
+            "Vehicle_Age": document.getElementById("vehicle-age").value,
+            "Vehicle_Type": document.getElementById("vehicle-type").value
+          };
+
+          // Validate required fields
+          const requiredFields = Object.keys(formData);
+          const missingFields = requiredFields.filter(field => !formData[field] || formData[field] === "");
+          if (missingFields.length > 0) {
+            alert(`Please fill in all required fields: ${missingFields.join(", ")}`);
+            return; // Stay on current page
+          }
+
+          // Convert to appropriate types
+          formData["Age"] = parseInt(formData["Age"]);
+          formData["Policy_Tenure"] = parseInt(formData["Policy_Tenure"]);
+          formData["Policy_Renewal_Count"] = parseInt(formData["Policy_Renewal_Count"]);
+          formData["Policy_Cancellation_History"] = parseInt(formData["Policy_Cancellation_History"]);
+          formData["Premium_Amount"] = parseFloat(formData["Premium_Amount"]);
+          formData["Total_Claims_Filed"] = parseInt(formData["Total_Claims_Filed"]);
+          formData["Claim_Amount_Total"] = parseFloat(formData["Claim_Amount_Total"]);
+          formData["Family_Members_Insured"] = parseInt(formData["Family_Members_Insured"]);
+          formData["Missed_Payments"] = parseInt(formData["Missed_Payments"]);
+          formData["Customer_Complaints"] = parseInt(formData["Customer_Complaints"]);
+          formData["Complaint_Resolution_Time"] = parseInt(formData["Complaint_Resolution_Time"]);
+          formData["Customer_Support_Calls"] = parseInt(formData["Customer_Support_Calls"]);
+          formData["Vehicle_Age"] = parseInt(formData["Vehicle_Age"]);
+
+          try {
+            const response = await fetch('/predict', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(formData)
+            });
+            const result = await response.json();
+            if (result.error) {
+              alert("Error: " + result.error);
+            } else {
+              document.getElementById("predicted-churn-probability").textContent = `${result.probability}%`;
+              document.getElementById("churn-group").textContent = result.prediction;
+              currentPage = outputPageIndex;
+              showPage(currentPage);
+            }
+          } catch (error) {
+            console.error("Prediction Error:", error);
+            alert("Failed to predict churn. Please check your inputs and try again.");
+          }
+        });
+
+        document.getElementById("clv-btn").addEventListener("click", async (event) => {
+          event.preventDefault();
+          const clvFormData = {
+            "premium_amount": document.getElementById("premium-amount").value,
+            "policy_tenure": document.getElementById("policy-tenure").value
+          };
+
+          if (!clvFormData.premium_amount || !clvFormData.policy_tenure) {
+            alert("Please fill in Premium Amount and Policy Tenure for CLV calculation.");
+            return;
+          }
+
+          clvFormData["premium_amount"] = parseFloat(clvFormData["premium_amount"]);
+          clvFormData["policy_tenure"] = parseInt(clvFormData["policy_tenure"]);
+
+          try {
+            const response = await fetch('/predict_clv', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(clvFormData)
+            });
+            const result = await response.json();
+            if (result.error) {
+              alert("Error: " + result.error);
+            } else {
+              document.getElementById("clv-result").textContent = `Rs. ${result.clv}`;
+            }
+          } catch (error) {
+            console.error("CLV Error:", error);
+            alert("Failed to calculate CLV. Please check your inputs and try again.");
+          }
+        });
+
+        document.getElementById("churn-reasons-btn").addEventListener("click", () => {
+          document.getElementById("churn-reasons-text").textContent = "Feature not yet implemented. Requires SHAP analysis.";
+        });
+      });
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Churn Reason Explanation</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('bulk_upload') }}">Bulk Upload</a></li>
+        <li><a href="{{ url_for('single_prediction') }}">Single Prediction</a></li>
+        <li><a href="{{ url_for('analytics') }}">Analytics</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h2>Churn Reason Explanation for Customer {{ customer_id }}</h2>
+    <pre>{{ explanation }}</pre>
+    <a href="{{ url_for('bulk_upload') }}">Back to Bulk Upload</a>
+  </main>
+</body>
+</html>

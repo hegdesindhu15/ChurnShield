@@ -1,0 +1,1 @@
+{"Missed Payments vs Churn": {"type": "bar", "labels": ["Not Churned", "Churned"], "data": [1.3876600698486612, 2.0457232952305873], "backgroundColor": ["#66c2a5", "#fc8d62"]}, "Customer Support Calls vs Churn": {"type": "bar", "labels": ["Not Churned", "Churned"], "data": [4.34974222517878, 5.338983050847458], "backgroundColor": ["#8dd3c7", "#ffffb3"]}}

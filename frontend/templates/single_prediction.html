@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Predict Churn</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index2.css') }}">
+  <!DOCTYPE html>
+  <html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict Churn</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index2.css') }}">
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100px;
+        /* Increased */
+        height: 100%;
+        background-color: #007bff;
+        padding: 10px;
+        /* Increased */
+        box-sizing: border-box;
+      }
+
+      .sidebar button {
+        display: block;
+        width: 100%;
+        font-size: 12px;
+        /* Increased */
+        padding: 8px;
+        /* Increased */
+        margin: 8px 0;
+        /* Increased */
+        background-color: white;
+        color: #007bff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .sidebar button:hover:not(:disabled) {
+        background-color: #0056b3;
+        color: white;
+      }
+
+      .sidebar button:disabled {
+        background-color: #cccccc;
+        color: #666666;
+        cursor: not-allowed;
+      }
+
+      .main-content {
+        margin-left: 110px;
+        /* Adjusted for wider sidebar */
+        padding: 8px;
+        max-width: 700px;
+        /* Increased to fit content */
+      }
+
+      form {
+        max-width: 100%;
+        gap: 10px;
+      }
+
+      .page {
+        display: none;
+      }
+
+      .page.active {
+        display: block;
+      }
+
+      .page-content {
+        display: flex;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        /* Adjusted */
+        padding: 8px;
+        /* Adjusted */
+        overflow: hidden;
+        /* Prevent overflow */
+        width: 500px;
+      }
+
+      .form-section {
+        padding: 10px;
+        border-radius: 4px;
+        overflow: hidden;
+        /* Prevent overflow */
+      }
+
+      .form-section label {
+        display: flex;
+        align-items: center;
+        font-size: 10px;
+        margin-bottom: 5px;
+      }
+
+      .form-section label span {
+        flex: 0 0 70px;
+        font-weight: bold;
+      }
+
+      .form-section input,
+      .form-section select {
+        flex: 1;
+        font-size: 10px;
+        padding: 8px;
+        max-width: 120px;
+        /* Reduced by 20% */
+        min-width: 120px;
+        /* Reduced by 20% */
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
+
+      .navigation {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin: 10px 0;
+      }
+
+      .action-btn {
+        font-size: 10px;
+        padding: 5px 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .action-btn:hover:not(:disabled) {
+        background-color: #0056b3;
+      }
+
+      .action-btn:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+      }
+
+      .output-section {
+        max-width: 100%;
+        display: grid;
+        gap: 8px;
+        padding: 10px;
+      }
+
+      .output-section h1 {
+        font-size: 10px;
+        text-align: center;
+      }
+
+      /* Reduced */
+      .output-section h2 {
+        font-size: 8px;
+        margin-top: 8px;
+      }
+
+      /* Reduced */
+      .summary {
+        display: grid;
+        gap: 5px;
+      }
+
+      .output-row {
+        display: flex;
+        align-items: center;
+        font-size: 10px;
+      }
+
+      .output-row label {
+        font-weight: bold;
+        flex: 0 0 90px;
+      }
+
+      .output-row output {
+        flex: 1;
+      }
+
+      .churn-reasons-output,
+      .retention-strategy-output {
+        display: grid;
+        gap: 5px;
+      }
+
+      .chart-container img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .output-section ul {
+        list-style: disc;
+        padding-left: 10px;
+        max-width: 700px;
+      }
+
+      .output-section li {
+        margin-bottom: 5px;
+        font-size: 10px;
+      }
+
+      #download_report {
+        justify-self: center;
+      }
+
+      #form-container {
+        display: block;
+      }
+
+      #output-container {
+        display: none;
+        width: 700px;
+      }
+    </style>
+  </head>
+
+<body>
+  <div class="sidebar">
+    <button onclick="window.location.href='/'">Home</button>
+    <button onclick="window.location.href='/history'">History</button>
+  </div>
+  <div class="main-content">
+    <div id="form-container">
+      <h2 style="text-align: center;">Predict Churn</h2>
+      <form id="churnForm">
+        <div class="page active" id="page-1">
+          <div class="page-content">
+            <div class="form-section">
+              <h2>Customer Demographics</h2>
+              <label><span>Customer ID:</span> <input type="text" name="CustomerID" required></label>
+              <label><span>Age:</span> <input type="number" name="Age" required></label>
+              <label><span>Gender:</span>
+                <select name="Gender" required>
+                  <option value="">Select</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </label>
+              <label><span>Marital Status:</span>
+                <select name="Marital_Status" required>
+                  <option value="">Select</option>
+
+                  <option value="Single">Single</option>
+                  <option value="Married">Married</option>
+                  <option value="Divorced">Divorced</option>
+                </select>
+              </label>
+              <label><span>Region:</span>
+                <select name="Region" required>
+                  <option value="">Select</option>
+
+                  <option value="Metro">Metro</option>
+                  <option value="Urban">Urban</option>
+                  <option value="Rural">Rural</option>
+                </select>
+              </label>
+              <label><span>Education Level:</span>
+                <select name="Education_Level" required>
+                  <option value="">Select</option>
+
+                  <option value="Master's">Master's</option>
+                  <option value="Bachelor's">Bachelor's</option>
+                  <option value="Diploma">Diploma</option>
+                  <option value="High School">High School</option>
+                </select>
+              </label>
+              <label><span>Employment Status:</span>
+
+                <select name="Employment_Status" required>
+                  <option value="">Select</option>
+
+                  <option value="Employed">Employed</option>
+                  <option value="Self-Employed">Self-Employed</option>
+                  <option value="Unemployed">Unemployed</option>
+                </select>
+              </label>
+            </div>
+            <div class="form-section">
+              <h2>Policy Information</h2>
+              <label><span>Policy Type:</span>
+                <select name="Policy_Type" required>
+                  <option value="">Select</option>
+
+                  <option value="Comprehensive">Comprehensive</option>
+                  <option value="Third Party">Third Party</option>
+                  <option value="Own Damage">Own Damage</option>
+                </select>
+              </label>
+              <label><span>Policy Tenure (years):</span> <input type="number" name="Policy_Tenure" required></label>
+              <label><span>Policy Renewal Count:</span> <input type="number" name="Policy_Renewal_Count"
+                  required></label>
+              <label><span>Policy Cancellation History:</span> <input type="number" name="Policy_Cancellation_History"
+                  required></label>
+            </div>
+          </div>
+          <div class="navigation">
+            <button type="button" id="prevBtn-1" class="action-btn" disabled>Previous</button>
+            <button type="button" id="nextBtn-1" class="action-btn">Next</button>
+          </div>
+        </div>
+
+        <div class="page" id="page-2">
+          <div class="page-content">
+            <div class="form-section">
+              <h2>Financial & Claim Details</h2>
+              <label><span>Premium Amount:</span> <input type="number" name="Premium_Amount" required></label>
+              <label><span>Total Claims Filed:</span> <input type="number" name="Total_Claims_Filed" required></label>
+              <label><span>Claim Amount Total:</span> <input type="number" name="Claim_Amount_Total" required></label>
+            </div>
+            <div class="form-section">
+              <h2>Customer Behavior</h2>
+              <label><span>Family Members Insured:</span> <input type="number" name="Family_Members_Insured"
+                  required></label>
+              <label><span>Missed Payments:</span> <input type="number" name="Missed_Payments" required></label>
+              <label><span>Mode of Communication:</span>
+                <select name="Mode_of_Communication" required>
+                  <option value="">Select</option>
+
+                  <option value="Phone">Phone</option>
+                  <option value="Email">Email</option>
+                  <option value="In-Person">In-Person</option>
+                </select>
+              </label>
+              <label><span>Payment Mode:</span>
+                <select name="Payment_Mode" required>
+                  <option value="">Select</option>
+
+                  <option value="Online">Online</option>
+                  <option value="Cheque">Cheque</option>
+                  <option value="Credit Card">Credit Card</option>
+                  <option value="Cash">Cash</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div class="navigation">
+            <button type="button" id="prevBtn-2" class="action-btn">Previous</button>
+            <button type="button" id="nextBtn-2" class="action-btn">Next</button>
+          </div>
+        </div>
+
+        <div class="page" id="page-3">
+          <div class="page-content">
+            <div class="form-section">
+              <h2>Customer Engagement</h2>
+              <label><span>Customer Complaints:</span> <input type="number" name="Customer_Complaints" required></label>
+              <label><span>Complaint Resolution Time (days):</span> <input type="number"
+                  name="Complaint_Resolution_Time" required></label>
+              <label><span>Customer Support Calls:</span> <input type="number" name="Customer_Support_Calls"
+                  required></label>
+            </div>
+            <div class="form-section">
+              <h2>Time-Based Fields</h2>
+              <label><span>Policy Start Date:</span> <input type="date" name="Policy_Start_Date" required></label>
+              <label><span>Policy End Date:</span> <input type="date" name="Policy_End_Date" required></label>
+              <label><span>Last Claim Date:</span> <input type="date" name="Last_Claim_Date" required></label>
+              <label><span>Last Payment Date:</span> <input type="date" name="Last_Payment_Date" required></label>
+              <label><span>Vehicle Age (years):</span> <input type="number" name="Vehicle_Age" required></label>
+              <label><span>Vehicle Type:</span>
+                <select name="Vehicle_Type" required>
+                  <option value="">Select</option>
+
+                  <option value="Hatchback">Hatchback</option>
+                  <option value="Sedan">Sedan</option>
+                  <option value="SUV">SUV</option>
+                  <option value="Luxury">Luxury</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div class="navigation">
+            <button type="button" id="prevBtn-3" class="action-btn">Previous</button>
+            <button type="submit" id="predictBtn" class="action-btn">Predict</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div id="output-container">
+      <div id="output" class="output-section">
+        <h1>Churn Prediction Results</h1>
+        <div class="summary">
+          <h1>Summary</h1>
+          <div class="output-row">
+            <label>Churn Probability:</label>
+            <output id="churn_probability">-</output>
+          </div>
+          <div class="output-row">
+            <label>Churn Group:</label>
+            <output id="churn_group">-</output>
+          </div>
+          <div class="output-row">
+            <label>Customer Lifetime Value:</label>
+            <output id="clv">-</output>
+          </div>
+        </div>
+        <div id="churn-reasons-output" class="churn-reasons-output">
+          <h2>Churn Reasons</h2>
+          <div class="chart-container">
+            <img id="shap_plot" src="" alt="No plot available">
+          </div>
+          <div class="churn-reasons-text">
+            <ul id="churn_explanation"></ul>
+          </div>
+        </div>
+        <div id="retention-strategy-output" class="retention-strategy-output">
+          <h2>Retention Strategies</h2>
+          <div class="retention-strategy-text">
+            <ul id="retention_strategies" style="margin-top: 10px;"></ul>
+          </div>
+
+
+        </div>
+        <button id="download_report" class="action-btn">Download Report</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('churnForm');
+    const pages = document.querySelectorAll('.page');
+    const prevBtns = document.querySelectorAll('[id^="prevBtn-"]');
+    const nextBtns = document.querySelectorAll('[id^="nextBtn-"]');
+    const formContainer = document.getElementById('form-container');
+    const outputContainer = document.getElementById('output-container');
+    let currentPage = 0;
+    let reportData = null;
+
+    const EXCHANGE_RATE = 84;
+
+    function showPage(index) {
+      pages.forEach((page, i) => {
+        page.classList.toggle('active', i === index);
+      });
+    }
+
+    prevBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (currentPage > 0) {
+          currentPage--;
+          showPage(currentPage);
+        }
+      });
+    });
+
+    nextBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (currentPage < pages.length - 1) {
+          const currentInputs = pages[currentPage].querySelectorAll('input, select');
+          let valid = true;
+          currentInputs.forEach(input => {
+            if (!input.checkValidity()) {
+              input.reportValidity();
+              valid = false;
+            }
+          });
+          if (valid) {
+            currentPage++;
+            showPage(currentPage);
+          }
+        }
+      });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const predictResponse = await fetch('/predict_and_explain', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (!predictResponse.ok) throw new Error(`Prediction failed: ${predictResponse.status}`);
+        const predictResult = await predictResponse.json();
+        if (predictResult.error) throw new Error(predictResult.error);
+
+        const clvResponse = await fetch('/calculate_clv', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            premium_amount: parseFloat(data.Premium_Amount),
+            policy_tenure: parseFloat(data.Policy_Tenure),
+            churn_probability: parseFloat(predictResult.probability)
+          })
+        });
+        const clvResult = await clvResponse.json();
+        if (clvResult.error) throw new Error(clvResult.error);
+
+        document.getElementById('churn_probability').textContent = `${predictResult.probability}%`;
+
+        const isChurn = predictResult.prediction === 'Churn';
+        document.getElementById('churn-reasons-output').style.display = isChurn ? 'block' : 'none';
+        document.getElementById('retention-strategy-output').style.display = isChurn ? 'block' : 'none';
+        document.getElementById('shap_plot').style.display = isChurn ? 'block' : 'none';
+
+        document.getElementById('churn_group').textContent = predictResult.prediction;
+        const clvInINR = (clvResult.clv * EXCHANGE_RATE).toFixed(2);
+        document.getElementById('clv').textContent = `₹${clvInINR}`;
+        document.getElementById('shap_plot').src = predictResult.shap_plot_url || '';
+        document.getElementById('shap_plot').alt = predictResult.shap_plot_url ? 'Top Churn Drivers' : 'No plot available';
+
+        const explanationList = document.getElementById('churn_explanation');
+        explanationList.innerHTML = '';
+        if (isChurn && predictResult.explanation) {
+          predictResult.explanation.split('\n').slice(1).forEach(line => {
+            if (line.trim().startsWith('-')) {
+              const li = document.createElement('li');
+              li.textContent = line.replace('-', '').trim().replace('High risk', 'Analysis indicates');
+              explanationList.appendChild(li);
+            }
+          });
+        }
+
+        const strategiesList = document.getElementById('retention_strategies');
+        if (isChurn) {
+          strategiesList.innerHTML = '<li>Generating AI-based retention strategy...</li>';
+        } else {
+          strategiesList.innerHTML = '<li>Not applicable for No Churn prediction.</li>';
+        }
+
+        reportData = {
+          customer_id: data.CustomerID,
+          prediction: predictResult.prediction,
+          probability: predictResult.probability,
+          clv: clvInINR,
+          form_inputs: data,
+          shap_plot_url: isChurn ? predictResult.shap_plot_url : '',
+          explanation: isChurn ? predictResult.explanation.replace('High risk', 'Analysis indicates') : '',
+          retention_strategies: '',
+          analysis_date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+        };
+
+        formContainer.style.display = 'none';
+        outputContainer.style.display = 'block';
+
+        if (isChurn) {
+          try {
+            const strategyResponse = await fetch('/explain_retention_strategy_ai', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                strategy_text: `Customer ID: ${data.CustomerID}, Prediction: ${predictResult.prediction}, Probability: ${predictResult.probability}%, Missed Payments: ${data.Missed_Payments}, Complaints: ${data.Customer_Complaints}, Complaint Time: ${data.Complaint_Resolution_Time}`,
+                raw_data: data
+              })
+            });
+
+            const strategyResult = await strategyResponse.json();
+            strategiesList.innerHTML = '';
+            if (strategyResult.explanation) {
+              const lines = strategyResult.explanation.split('\n').filter(line => line.trim());
+              lines.forEach(line => {
+                const li = document.createElement('li');
+                li.textContent = line.replace('-', '').trim();
+                strategiesList.appendChild(li);
+              });
+              reportData.retention_strategies = strategyResult.explanation;
+            } else {
+              strategiesList.innerHTML = '<li>No strategy identified.</li>';
+              reportData.retention_strategies = 'No strategy identified.';
+            }
+          } catch (err) {
+            console.error('[Gemini] Strategy fetch error:', err);
+            strategiesList.innerHTML = '<li>⚠️ AI strategy generation failed (Gemini service might be down).</li>';
+            reportData.retention_strategies = 'AI strategy generation failed.';
+          }
+        } else {
+          reportData.retention_strategies = 'Not applicable.';
+        }
+
+      } catch (error) {
+        console.error('Error:', error);
+        outputContainer.innerHTML = `<p class="alert alert-error">Error: ${error.message}</p>`;
+        outputContainer.style.display = 'block';
+      }
+    });
+
+    document.getElementById('download_report').addEventListener('click', async () => {
+      if (!reportData) {
+        alert('Please run prediction first.');
+        return;
+      }
+      try {
+        const response = await fetch('/generate_single_report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(reportData)
+        });
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${reportData.customer_id}_Churn_Report.pdf`;
+        a.click();
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error('Error downloading report:', error);
+        alert('Failed to generate report.');
+      }
+    });
+
+    // ✅ Page navigation works on first load
+    showPage(currentPage);
+  </script>
+
+
+
+
+</body>
+
+</html>

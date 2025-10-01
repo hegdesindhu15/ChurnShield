@@ -1,0 +1,48 @@
+
+        <html>
+        <head>
+            <title>ChurnShield Prediction Report</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                h1 { color: #2c3e50; }
+                h2 { color: #34495e; }
+                ul { list-style-type: disc; margin-left: 20px; }
+                .section { margin-bottom: 20px; }
+                img { display: block; margin: 10px 0; }
+            </style>
+        </head>
+        <body>
+            <h1>ChurnShield Prediction Report</h1>
+            <div class="section">
+                <h2>Customer Summary</h2>
+                <ul>
+                    <li><strong>Customer ID:</strong> c_2</li>
+                    <li><strong>Analysis Date:</strong> June 17, 2025</li>
+                    <li><strong>Churn Prediction:</strong> Churn</li>
+                    <li><strong>Churn Probability:</strong> 68.22%</li>
+                    <li><strong>Customer Lifetime Value:</strong> ₹48051.36</li>
+                </ul>
+            </div>
+            <div class="section">
+                <h2>Customer Input Details</h2>
+                <ul>    <li>CustomerID: c_2</li>    <li>Age: 23</li>    <li>Gender: Male</li>    <li>Marital_Status: Married</li>    <li>Region: Metro</li>    <li>Education_Level: Bachelor’s</li>    <li>Employment_Status: Self-Employed</li>    <li>Policy_Type: Comprehensive</li>    <li>Policy_Tenure: 2</li>    <li>Policy_Renewal_Count: 1</li>    <li>Policy_Cancellation_History: 12</li>    <li>Premium_Amount: 900</li>    <li>Total_Claims_Filed: 12</li>    <li>Claim_Amount_Total: 120000</li>    <li>Family_Members_Insured: 2</li>    <li>Missed_Payments: 2</li>    <li>Mode_of_Communication: Phone</li>    <li>Payment_Mode: Online</li>    <li>Customer_Complaints: 3</li>    <li>Complaint_Resolution_Time: 23</li>    <li>Customer_Support_Calls: 12</li>    <li>Policy_Start_Date: 2025-06-01</li>    <li>Policy_End_Date: 2025-06-08</li>    <li>Last_Claim_Date: 2025-06-18</li>    <li>Last_Payment_Date: 2025-06-19</li>    <li>Vehicle_Age: 7</li>    <li>Vehicle_Type: Sedan</li></ul>
+            </div>
+            <div class="section">
+                <h2>Top Churn Drivers (SHAP)</h2>
+                <img src="http://localhost:5000/static/plots/c_2_shap.png" alt="SHAP Plot" style="max-width: 100%; height: auto;">
+            </div>
+            <div class="section">
+                <h2>Churn Explanation</h2>
+                <ul>
+                        Why this customer might churn:<br>     Analysis indicates: Their customer support calls of 12.0 suggests a higher chance of leaving.<br>     Analysis indicates: Their complaint resolution time of 23.0 suggests a higher chance of leaving.<br>     Analysis indicates: Their missed payments of 2.0 suggests a higher chance of leaving.<br>
+                </ul>
+            </div>
+            <div class="section">
+                <h2>AI-Suggested Retention Strategies</h2>
+                <ul>
+                        * Offer a payment plan to address the 2 missed payments and prevent further delinquency.<br>    * Investigate and proactively address the 3 complaints, aiming for faster resolution than the previous 23 days.<br>    * Review the policy and coverage to ensure it adequately protects the customer's vehicle type, potentially offering tailored options.<br>    * Proactively reach out to the customer to understand their concerns and offer personalized solutions.<br>
+                </ul>
+            </div>
+        </body>
+        </html>
+        
