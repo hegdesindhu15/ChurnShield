@@ -36,5 +36,22 @@ ChurnShield is a data-driven web application that helps vehicle insurance compan
 
 ## Screenshots
 
-<img width="716" height="1012" alt="diagram-export-13-6-2025-12_56_45-pm" src="https://github.com/user-attachments/assets/ed32b6f7-3135-498f-819a-ad342753fcb6" />
+
+<img width="1855" height="865" alt="Screenshot 2025-06-10 235834 (1)" src="https://github.com/user-attachments/assets/d08535c3-057c-42b7-8f02-220c2f3871c9" />
+
+<img width="1855" height="865" alt="Screenshot 2025-06-10 235834 (2)" src="https://github.com/user-attachments/assets/89d715ce-614c-4e3c-b972-0ab052815f35" />
+
+<img width="1855" height="865" alt="Screenshot 2025-06-10 235834" src="https://github.com/user-attachments/assets/89e04c21-35d8-43f4-83e9-60827bd7f3ef" />
+
+<img width="485" height="334" alt="Screenshot 2025-06-11 000126" src="https://github.com/user-attachments/assets/fb63b0d1-eb97-4076-b57a-5ece5492c2bb" />
+
+<img width="604" height="441" alt="Screenshot 2025-06-11 000525 (1)" src="https://github.com/user-attachments/assets/17dcbfd4-78ce-4ad0-88b2-9c67bdbb8dc1" />
+
+
+<img width="759" height="784" alt="Screenshot 2025-06-11 000557" src="https://github.com/user-attachments/assets/e1ba348f-2a39-4d0c-bb37-189dd0f6b501" />
+
+<img width="820" height="526" alt="Screenshot 2025-06-11 000605" src="https://github.com/user-attachments/assets/9bf20310-a130-4f48-b2e5-2d31e6f776be" />
+
+
+
 
