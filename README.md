@@ -33,3 +33,8 @@ ChurnShield is a data-driven web application that helps vehicle insurance compan
    ```bash
    git clone https://github.com/hegdesindhu15/ChurnShield.git
    cd ChurnShield
+
+## Screenshots
+
+<img width="716" height="1012" alt="diagram-export-13-6-2025-12_56_45-pm" src="https://github.com/user-attachments/assets/ed32b6f7-3135-498f-819a-ad342753fcb6" />
+
